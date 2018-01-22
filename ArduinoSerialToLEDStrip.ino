@@ -26,24 +26,22 @@ void setup() {
 
 void loop() {
   if(Serial.available() > 0) {
-    int commandLength = Serial.available();
-    char commandArray[commandLength];
-    for(int i; i<commandLength; i++){
-      char data = Serial.read();   
-      commandArray[i] = data;
-    } 
-    Serial.println(commandArray);  
-    pyCommand = commandArray;
-
+    char commandArray[Serial.available()+1];
+    for(int i; i<Serial.available(); i++){ 
+      commandArray[i] = Serial.read();
+    }
+    commandArray[Serial.available()+1] = '/0';
+    Serial.print("Received command: "); Serial.println(commandArray);
   }
-  
+ /* 
 //  potVal = analogRead(potPin);
 //  mapPotVal = map(potVal, 0, 1023, 0, 59);
-  selectWipe(pyCommand, 5); //Uncomment this to make the led count respond to a serial message sent from Python
-//  selectWipe(mapPotVal, 5); //Uncomment this to make the led count respond to the potentiometer
+  selectWipe(pyCommand); //Uncomment this to make the led count respond to a serial message sent from Python
+//  selectWipe(mapPotVal); //Uncomment this to make the led count respond to the potentiometer
+*/
 }
 
-void selectWipe(char pixelLength, int wait) { //converts mapPotVal to pixelLength
+void selectWipe(char pixelLength) { //converts mapPotVal to pixelLength
   int r=random(0,255);
   int g=random(0,255);
   int b=random(0,255);
@@ -56,5 +54,4 @@ void selectWipe(char pixelLength, int wait) { //converts mapPotVal to pixelLengt
     strip.setPixelColor(i, 0x000000); //set remaining unlit pixels to the color black
     strip.show();
   }
-//  delay(wait);
 }
