@@ -1,4 +1,3 @@
-
 #include <Adafruit_DotStar.h>
 // Because conditional #includes don't work w/Arduino sketches...
 #include <SPI.h>         // COMMENT OUT THIS LINE FOR GEMMA OR TRINKET
@@ -26,22 +25,17 @@ void setup() {
 
 void loop() {
   if(Serial.available() > 0) {
-    char commandArray[Serial.available()+1];
-    for(int i; i<Serial.available(); i++){ 
-      commandArray[i] = Serial.read();
-    }
-    commandArray[Serial.available()+1] = '/0';
-    Serial.print("Received command: "); Serial.println(commandArray);
+    char nextCharacter=Serial.read();
+    Serial.print(nextCharacter);
+    selectWipe(nextCharacter-48);
   }
- /* 
 //  potVal = analogRead(potPin);
 //  mapPotVal = map(potVal, 0, 1023, 0, 59);
-  selectWipe(pyCommand); //Uncomment this to make the led count respond to a serial message sent from Python
+//  selectWipe(pyCommand); //Uncomment this to make the led count respond to a serial message sent from Python
 //  selectWipe(mapPotVal); //Uncomment this to make the led count respond to the potentiometer
-*/
 }
 
-void selectWipe(char pixelLength) { //converts mapPotVal to pixelLength
+void selectWipe(int pixelLength) { //converts mapPotVal to pixelLength
   int r=random(0,255);
   int g=random(0,255);
   int b=random(0,255);
